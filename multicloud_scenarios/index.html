@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Scenarios for multi-cluster management - Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Scenarios for multi-cluster management";
+    var mkdocs_page_input_path = "multicloud_scenarios.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../quickstart/">Quick Start</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Scenarios for multi-cluster management</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#the-era-of-multicloud">The era of Multicloud</a></li>
+    
+
+    <li class="toctree-l2"><a href="#the-client-story">The Client Story</a></li>
+    
+
+    <li class="toctree-l2"><a href="#cross-cluster-visibility">Cross-cluster visibility</a></li>
+    
+
+    <li class="toctree-l2"><a href="#workload-deployment-and-placement">Workload deployment and placement</a></li>
+    
+
+    <li class="toctree-l2"><a href="#compliance-and-security">Compliance and Security</a></li>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-applications/">MCM Applications</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-devops/">DevOps with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../policy/">Policy and Compliance</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-monitoring-event-management/">Monitoring and event management with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-openshift/">Manage Red Hat OpenShift platform with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-eks/">Manage AWS EKS cluster with MCM</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Scenarios for multi-cluster management</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h2 id="the-era-of-multicloud">The era of Multicloud</h2>
+<p>Author: Gang Chen (gangchen@us.ibm.com)</p>
+<p>We are in a Multicloud arena with 8 out of 10 enterprises committing to multicloud and 71% use three or more cloud providers. Embracing Multicloud will be the end game. IBM Multicloud Manager is the enterprise-grade multicloud management solution for Kubernetes.</p>
+<p>Many enterprises deploy multiple Kubernetes clusters on premises and in the public cloud, such as IBM Cloud™, Amazon Web Services (AWS), and Azure. You might find yourself using different vendor-supported Kubernetes releases, including IBM Cloud Private, Red Hat® OpenShift®, IBM Cloud Kubernetes Service, Amazon EKS, and Azure AKS. As each cloud provider or Kubernetes solution comes with its own tools and operations, managing a Multicloud Kubernetes environment can be overwhelming.</p>
+<p>We summarized the top multicloud multi-cluster Kubernetes management challenges into the following 4 categories:</p>
+<ul>
+<li>Cross-cluster visibility</li>
+<li>Workload deployment and placement</li>
+<li>Compliance and Security</li>
+<li>Day 2 operation</li>
+</ul>
+<h2 id="the-client-story">The Client Story</h2>
+<p>Let's start by walking through a client story. The acmeAir company (a fictitious airline company combining multiple real client scenarios and requirements) is adopting cloud with following key principles:</p>
+<ul>
+<li>Multi-cloud (On-prem, IBM Cloud, AWS, Azure)</li>
+<li>Kubernetes based container runtime</li>
+<li>Automated DevOps</li>
+<li>Security is the top priority of the adoption</li>
+</ul>
+<p>acmeAir has many isolated Kubernetes clusters dedicated for different development teams and business unit (LoB). For example, they are running web and mobile consumer facing sites for the acmeair.com on IBM Cloud Private (ICP) on on-prem datacenter and ICP on AWS. While the airline booking API service is running on IBM Cloud Kubernetes Service (IKS) and ICP on AWS.</p>
+<p>Even within the Booking API project, there are multiple Kubernetes (IKS and ICP) clusters that separate the Dev/QA from Staging/Production environment. And for High availability and Disaster Recovery consideration, acmeAir plans to deploy the production clusters in multiple cloud providers (regions). In summary, they end up having more than 12 clusters to support the various project. Adding other LoB, the number grows.</p>
+<p>What are Ops/SRE/Devops engineers doing with these clusters now (As-Is with or without MCM):</p>
+<ul>
+<li>Single consolidated view of all the clusters for corporate Ops team</li>
+<li>Patch and upgrade many clusters and components</li>
+<li>A single DevOps pipeline will build Microservices app and deployment them as builds and promote through the environment (Dev -&gt; QA -&gt; staging -&gt; Prod)</li>
+<li>Token Rotation. every 30 days, access tokens stored in secrets will need to be rotated in every environment and updated in CICD build tools</li>
+<li>Ops/DevOps engineer has to ensure secrets and ConfigMaps synchronization in every cluster</li>
+<li>The acmeair.com site clusters contains customer PCI data that needs to ensure compliance in staging/prod clusters</li>
+<li>the booking API engine needs to handle the workload bursting situation to scale up a new auto-provisioned ICP cluster on public Cloud IaaS</li>
+<li>Ops team is looking for a tool to manage multiple clusters from a single location including dashboards, command &amp; control, deployments.</li>
+<li>Ops team needs to keep things in sync across clusters, so need to create/update objects only once - teams, helm catalogs used by teams etc. </li>
+<li>Ops/DevOps wants single action ( anything from hamburger menu in the console) to execute for a set of clusters </li>
+</ul>
+<p>This list gives you a big picture of the issues when dealing with multiple Kubernetes clusters.</p>
+<h2 id="cross-cluster-visibility">Cross-cluster visibility</h2>
+<p><strong> User Story (client needs): </strong></p>
+<p>More and more clients adopt multiple-cloud strategy where they will host and operate multiple Kubernetes clusters across multiple cloud IaaS environment (including on-prem). Operators need a single management interface and utility to manage all these clusters with secure access. Operators can easily get health status of all the clusters managed including overall health condition, the key resource usage information. This function should be delivered through both a UI and cli utility. Operators can easily add, remove and update label of a cluster being managed.</p>
+<p><strong> MCM capability </strong></p>
+<p>The current release of MCM provides the following feature in cluster inventory:</p>
+<ul>
+<li>Single view of all the clusters managed</li>
+<li>Query/search based on cluster label</li>
+<li>View health of all the clusters in a given region</li>
+<li>Know how many nodes are down in all the clusters</li>
+<li>View the pods in the a given namespace in all development clusters</li>
+<li>View (read only) the health status of pods, nodes, persistent volumes and applications running in those clusters</li>
+<li>Available through ICP Console UI and <code>mcmctl</code> cli</li>
+</ul>
+<h2 id="workload-deployment-and-placement">Workload deployment and placement</h2>
+<p><strong> User Story (client needs): </strong></p>
+<p>Developers and Operators may want to deploy workloads (Cloud-Native apps, App modernization packages) to multiple clusters. For example, Developers or DevOps engineer would like to deploy the application Helm Chart to Dev cluster environment, and later promote it to QA environment. Both through a single Catalog UI or cli utility. The Operators often deploy workload to multiple clusters as well. In our acmeAir example, production workload needs to be deployed to 2 cloud provider clusters and ensure the consistency of the application.</p>
+<p>Users would like to embed the multi-cluster support capability in their existing CI/CD DevOps pipeline. So, they don't have to manage and update the different endpoint, access token and artifact repo (Helm repo) for each cluster.</p>
+<p>Sometimes, developer and operator may need to deploy and manage the workload in a higher abstract format where several modules/Helm charts are grouped as deployment unit with dependency and other relationship built in. Particularly, when some of the dependent components may end up in different clusters. The capability to have an abstract Application component spanning cross multiple cluster becomes every helpful.</p>
+<p><strong> MCM capability </strong></p>
+<ul>
+<li>Abstract Application component. This defines the representation of the resource common across clusters. This part is similar to <a href="https://github.com/kubernetes-sigs/federation-v2">Kubernetes Federation V2</a> feature. MCM has more exposure in dependency management capability. As well as reflect the relationship in a visual <code>topology</code> format.</li>
+<li>Component placement. More information will be addressed in below section. In general, MCM can place a workload to different clusters/namespaces based on a set of selector and criteria. This can be powerful in multiple clusters scenario. For example, solving the request from Air Canada, Telus.</li>
+<li>MCM cli integration with CI/CD pipeline.</li>
+<li>Managed cross cluster Helm Repo</li>
+<li>Local or Remote Helm chart deployment through multi-cluster catalog or cli.</li>
+</ul>
+<p><strong> Features/Gaps </strong></p>
+<ul>
+<li>Package and creating MCM Application is a manual process requiring knowledge of the MCM application schema. A scaffolding tool could be very help to package components into MCM application.</li>
+<li>Integrating with existing CI/CD toolchain seems rudimentary at cli level. Considering some common plugins like MCM plugin for Jenkin etc..</li>
+</ul>
+<h2 id="compliance-and-security">Compliance and Security</h2>
+<p>This feature is meant to address the requests:</p>
+<ul>
+<li>How do I set consistent security policies across environments?</li>
+<li>Which clusters are compliant?</li>
+<li>How can I place workloads based on capacity, policy?</li>
+<li>How can I ensure all the clusters are configured properly based on their desired state.</li>
+</ul>
+<p><strong> User Story </strong></p>
+<p>Operators need to ensure that clusters are operating properly by comparing the current configuration of various resources against a desired state. And operator would like to enforce role or pod object placement within the clusters through a set of policy templates.</p>
+<p>Let's use some examples to walk through the user story.
+  The acmeair.com site will be deployed to both IBM Cloud and AWS. However, only IBM Cloud is certified by the company as PCI compliance given customer payment information will be stored in the system. Thus, the policy needs to enforce the payment services can only run on Kuberentes clusters hosted in IBM Cloud.</p>
+<p>Another example is associated with Workload deployment explained in above section. acmeair.com is planning to rollout a new feature. But would like to deploy first only to development and QA environment to pass various tests. DevOps engineers can simply tag the Application placement policy to cluster selector of DEV and QA in stead of configuring the CI/CD pipleine to handle the cluster enforcement.</p>
+<p><strong> MCM capability </strong></p>
+<ul>
+<li>Set and enforce polices for Security, Applications, infrastructure ( Auto enforcement at cluster level)</li>
+<li>Check compliance against deployment parameters, configuration and policies</li>
+</ul>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../mcm-applications/" class="btn btn-neutral float-right" title="MCM Applications">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../quickstart/" class="btn btn-neutral" title="Quick Start"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../quickstart/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../mcm-applications/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>

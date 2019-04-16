@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="None">
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>GuestBook Example v2 - Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../../extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "GuestBook Example v2";
+    var mkdocs_page_input_path = "demos/guestbook/README.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../quickstart/">Quick Start</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../multicloud_scenarios/">Scenarios for multi-cluster management</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../mcm-applications/">MCM Applications</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../mcm-devops/">DevOps with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../policy/">Policy and Compliance</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../mcm-monitoring-event-management/">Monitoring and event management with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../mcm-openshift/">Manage Red Hat OpenShift platform with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../mcm-eks/">Manage AWS EKS cluster with MCM</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>GuestBook Example v2</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="guestbook-example-v2">GuestBook Example v2</h1>
+<p>This example is trying to convert k8s guest book example [https://kubernetes.io/docs/tutorials/stateless-application/guestbook] into mcm application</p>
+<p>Following 3 charts are wrapper for deployment and service in k8s example, already loaded into public place
+1. gbf
+2. gbrm
+3. gbrs</p>
+<p>Following 1 chart is for mcm-application
+1. gbapp</p>
+<h2 id="whats-new">What's New</h2>
+<ol>
+<li>Change to PlacementPolicy and PlacementBinding</li>
+<li>Different PlacementPolicy/PlacementBidning for Different Deployable in Application</li>
+</ol>
+<h2 id="usage">Usage</h2>
+<ol>
+<li>Clone the repo, package app charts with <code>helm package gbapp</code></li>
+<li>Load application charts into ICP with <code>cloudctl catalog load-chart --archive gbapp-0.1.0.tgz</code></li>
+<li>Install application chart with GUI or CLI <code>helm install gbapp -n &lt;release-name&gt; --tls</code></li>
+<li>Update placement related values to redeploy application</li>
+<li>Delete helm release to deregister application <code>helm delete &lt;release-name&gt; --purge --tls</code></li>
+</ol>
+              
+            </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+      
+    </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.0.4
+Build Date UTC : 2019-04-16 19:18:47
+-->

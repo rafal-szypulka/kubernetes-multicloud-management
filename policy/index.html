@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Policy and Compliance - Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+  <link href="../extra.css" rel="stylesheet">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Policy and Compliance";
+    var mkdocs_page_input_path = "policy.md";
+    var mkdocs_page_url = null;
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js" defer></script>
+  <script src="../js/modernizr-2.8.3.min.js" defer></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+  <script>hljs.initHighlightingOnLoad();</script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../quickstart/">Quick Start</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../multicloud_scenarios/">Scenarios for multi-cluster management</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-applications/">MCM Applications</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-devops/">DevOps with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Policy and Compliance</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#mcm-compliance-manager">MCM Compliance Manager</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#introduction">Introduction</a></li>
+        
+            <li><a class="toctree-l3" href="#the-basics">The Basics</a></li>
+        
+            <li><a class="toctree-l3" href="#compliance-manager-tutorial">Compliance Manager Tutorial</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-monitoring-event-management/">Monitoring and event management with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-openshift/">Manage Red Hat OpenShift platform with MCM</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../mcm-eks/">Manage AWS EKS cluster with MCM</a>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Cookbook for managing Kuberenetes clusters with IBM Multicloud Manager</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Policy and Compliance</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="mcm-compliance-manager">MCM Compliance Manager</h1>
+<p><strong>Author:</strong> Fabio Gomez (fabiogomez@us.ibm.com)</p>
+<h2 id="introduction">Introduction</h2>
+<p>In the previous chapter we spoke of the complexities of managing applications across multiple clusters and how MCM takes that complexity away with its placement policies. We also covered a DevOps demo where you can get first hand experience on how easy it is to deploy an application to multiple clusters by leveraging MCM's placement policies.</p>
+<p>What was not mentioned in the above scenario was that, outside of setting up MCM Hub Cluster and Klusterlets properlies, to get the Guestbook app to work we had to create a <code>Cluster Image Policy</code> in both clusters so they are able to download Docker images from Docker Hub and other Docker registries. This manual step may be trivial when you have just 2 clusters. However, the more granular your configuration requirements become and the more environments/clusters you have, it gets more difficult, time-consuming, and error-prone to manage cluster configuration.</p>
+<p>Configuration management tools, such as <code>Chef</code> &amp; <code>Ansible</code>, have existed for a while and have become imperative for managing infrastructure configuration at scale. However, at the time of writing, there is no major configuration management solution for Kubernetes native resources such as <code>Deployments</code>, <code>Quotas</code>, <code>Roles</code>, <code>Role Bindings</code>, etc.</p>
+<p>MCM attempts to solve this with its <code>MCM Compliance Manager</code> feature, which provides a desired state-based management approach for informing and enforcing on the policy compliance of a set of clusters managed by MCM. Currently, the only Kubernetes resources that the Compliance Manager is able to manage are:
+<em> Roles
+</em> Roles Bindings</p>
+<p>The goal in future versions is to be able to manage Kubernets resources such as <code>Namespaces</code>, <code>Quotas</code>, <code>Network Policies</code>, <code>Pod resources &amp; image policies</code>, and <code>Istio policies</code>. Please checkout the <a href="https://github.ibm.com/IBMPrivateCloud/roadmap/blob/master/feature-specs/hcm/compliance-manager/compliance-spec.md#beyond-tech-preview-features">Beyond Tech Previous Features</a> section in IBM Cloud Private's roadmap for more information.</p>
+<p>Though currently we are presented with a limited selection, the fact that we can use <code>MCM Compliance Manager</code> to manage Roles and Role Bindings is paramount. By managing Roles and Role Bindings, we can ensure that the users and/or the service accounts in your ICP clusters only have the permissions they require and, therefore, prevent an all-powerful user from existing and being compromised by malicious users.</p>
+<h2 id="the-basics">The Basics</h2>
+<p>From a bottom-up approach, there are 3 concepts that you need to understand to make sense of the Compliance Manager's features. These concepts are:</p>
+<ul>
+<li>Template</li>
+<li>Policy</li>
+<li>Compliance</li>
+</ul>
+<h3 id="template">Template</h3>
+<p>Starting at the bottom, we have <code>Template</code>. A Template defines a list of <code>policyRule</code>s that determine whether a particular Kubernetes Resource is compliant or not. These rules are basically a list of attributes that the given Kubernetes Resource must and/or must not have in order to be compliant.</p>
+<p>To better understand a <code>Template</code>, let's look an actual YAML file for a Template of kind <code>RoleTemplate</code>:</p>
+<pre><code class="yaml">apiVersion: roletemplate.mcm.ibm.com/v1alpha1
+kind: RoleTemplate
+complianceType: &quot;musthave&quot; # at this level, it means the role must exist with the rules that it musthave below
+metadata:
+  namespace: &quot;&quot; # will be inferred
+  name: operator
+rules:
+  - complianceType: &quot;musthave&quot; # at this level, it means if the role exists the rule is a musthave
+    policyRule:
+      apiGroups: [&quot;extensions&quot;, &quot;apps&quot;]
+      resources: [&quot;deployments&quot;]
+      verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;delete&quot;]
+  - complianceType: &quot;mustnothave&quot; # at this level, it means if the role exists the rule is a mustnothave
+    policyRule:
+      apiGroups: [&quot;core&quot;]
+      resources: [&quot;pods&quot;]
+      verbs: [&quot;create&quot;, &quot;update&quot;, &quot;patch&quot;]
+  - policyRule:
+      apiGroups: [&quot;core&quot;]
+      resources: [&quot;secrets&quot;]
+      verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;create&quot;, &quot;delete&quot;, &quot;update&quot;, &quot;patch&quot;]
+</code></pre>
+
+<p>Here is a breakdown of the fields above:</p>
+<ul>
+<li><strong>apiVersion</strong>: The path where the custom API is defined.</li>
+<li><strong>kind</strong>: Defines the template kind, which is <code>RoleTemplate</code> in this case.</li>
+<li><strong>complianceType</strong>: This field determines whether the resource (<code>Role</code> in this case) that matches the given <code>rules</code> must exist or not.<ul>
+<li><code>musthave</code>: Means that the resource with the matching <code>rules</code> must exist.</li>
+<li><code>mustnothave</code>: Means that the resource with the matching <code>rules</code> must NOT exist.</li>
+</ul>
+</li>
+<li><strong>metadata</strong>:<ul>
+<li><strong>namespace</strong>: The Kubernetes namespace for the template.</li>
+<li><strong>name</strong>: The name of the template.</li>
+</ul>
+</li>
+</ul>
+<p>Note that the above fields are specific to <code>Template</code>s in general. The following fields are specific to <code>RoleTemplate</code>:</p>
+<ul>
+<li><strong>rules</strong>: List of rules (<code>policyRule</code> in this case) that will determine the compliance of a resource (<code>Role</code> in this case).<ul>
+<li><strong>complianceType</strong>: <code>musthave</code> or <code>mustnothave</code>. Similar to a Template's higher level <code>complianceType</code>, this field determines whether the rule inside the template must exist or not.</li>
+<li><strong>policyRule</strong>: This is the actual compliance rule, which is defined by the fields below:<ul>
+<li><strong>apiGroups</strong>: Array of API Groups to apply this rule against.</li>
+<li><strong>resources</strong>: Array of Resources from API Groups mentioned above to apply this rule against.</li>
+<li><strong>verbs</strong>: Array of verbs that apply to the API Groups and Resources mentioned above.</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>The contents of the templates will vary based on the target Kubernetes resource. But just know that the contents of a template is what defines the rules that Compliance Manager will be checking for in order to meet compliance.</p>
+<p>A <strong>Template</strong> is the most important concept to grasp correctly as everything that follows revolves around it. But don't worry, it's all downhill from here.</p>
+<h3 id="policy">Policy</h3>
+<p>Now that we understand what a <code>Template</code> is, it will be much easier to explain what a <code>Policy</code> is. A <code>Policy</code> is responsible for the following:
+<em> Take a list of <code>Template</code>s and enforce their rules in a cluster.
+</em> Determine which namespaces to enforce the rules into.
+* Determine what remediation action to take when compliance is not met.</p>
+<p>To better understand a <code>Policy</code>, let's look an actual YAML file for a Policy object:</p>
+<pre><code class="yaml">apiVersion: policy.mcm.ibm.com/v1alpha1
+kind: Policy
+metadata:
+  name: policy02
+  description: Instance descriptor for policy resource
+spec:
+  remediationAction: &quot;enforce&quot; # or inform
+  namespaces:
+    include: [&quot;default&quot;]
+    exclude: [&quot;kube*&quot;]
+  role-templates:
+    - kind: RoleTemplate
+      apiVersion: roletemplate.mcm.ibm.com/v1alpha1
+      complianceType: &quot;musthave&quot; # at this level, it means the role must exist with the rules that it musthave below
+      metadata:
+        namespace: &quot;&quot; # will be inferred
+        name: operator
+      rules:
+        - complianceType: &quot;musthave&quot; # at this level, it means if the role exists the rule is a musthave
+          policyRule:
+            apiGroups: [&quot;extensions&quot;, &quot;apps&quot;]
+            resources: [&quot;deployments&quot;]
+            verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;delete&quot;]
+        - complianceType: &quot;mustnothave&quot; # at this level, it means if the role exists the rule is a mustnothave
+          policyRule:
+            apiGroups: [&quot;core&quot;]
+            resources: [&quot;pods&quot;]
+            verbs: [&quot;create&quot;, &quot;update&quot;, &quot;patch&quot;]
+        - policyRule:
+            apiGroups: [&quot;core&quot;]
+            resources: [&quot;secrets&quot;]
+            verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;create&quot;, &quot;delete&quot;, &quot;update&quot;, &quot;patch&quot;]
+</code></pre>
+
+<p>Here is a breakdown of the fields above:</p>
+<ul>
+<li><strong>apiVersion</strong>: The path where the custom API is defined.</li>
+<li><strong>kind</strong>: <code>Policy</code> in this case.</li>
+<li><strong>spec</strong>:<ul>
+<li><strong>remediationAction</strong>: this is where you specify what you would like the Compliance Manager to do when there is a non-compliance for the given Policy. Here are the options:<ul>
+<li><code>enforce</code>: If non-compliance is found, enforce policy by creating/deleting the resources in <code>role-templates</code>.</li>
+<li><code>inform</code>: If non-compliance is found, don't enforce policy but inform the MCM Admin of the non-compliance via the Dashboard.</li>
+</ul>
+</li>
+<li><strong>namespaces</strong>: These are the namespaces where the policies will be inforced in.
+    <strong>include</strong>: Array or expression of namespaces to INCLUDE in the policy checks.
+    <strong>exclude</strong>: Array or expression of namespaces to EXCLUDE in the policy checks.</li>
+<li><strong>role-templates</strong>: List of Templates (<code>RoleTemplates</code> in this case), which contain the rules to enforce.</li>
+</ul>
+</li>
+</ul>
+<p>Note that, we skipped <code>role-templates</code> as we already broke down and explained the contents of a Template. The only comment to add is that the templates' namespace will be inherited from the Policy's <code>namespaces</code> field.</p>
+<h3 id="compliance">Compliance</h3>
+<p>We now understand that a <code>Template</code> defines the rules to enforce and a <code>Policy</code> defines how and where (namespaces) the rules are enforced in a cluster. However, a <code>Policy</code> must still be a applied to each cluster. Applying the policies manually may be fine for 1 or 2 clusters. But once again, the more abundant and more granular the policies become and the more clusters you have to manage, the more cumbersome managing the policies become.</p>
+<p>Luckily, the Compliance Manager can manage this for you with a <code>Compliance</code> object. A <code>Compliance</code> object takes a list of <code>Policy</code> objects (and their respective <code>Template</code>s) and determines what clusters to apply them to based on cluster selectors. A <code>Compliance</code>, though not apparent by its name alone, is the final piece that ties the policies into the actual infrastructure (clusters) and, therefore, fully implement Compliance.</p>
+<p>To better understand a <code>Compliance</code>, let's look an actual YAML file for a Compliance object, which contains 2 Policy objects:</p>
+<pre><code class="yaml">apiVersion: compliance.mcm.ibm.com/v1alpha1
+kind: Compliance
+metadata:
+  name: compliance1
+  namespace: mcm
+  description: Instance descriptor for compliance resource
+spec:
+  clusterSelector:
+    matchNames:
+    - &quot;se-stg-31&quot;
+    - &quot;se-dev-31&quot;
+#    matchLabels:
+#      cloud: &quot;IBM&quot;
+#      hippa: &quot;true&quot;
+#    matchExpressions:
+#    - key: key1
+#      operator: &quot;NotIn&quot;
+#      values:
+#      - &quot;cl3&quot;
+#      - &quot;cl4&quot;
+#    matchConditions:
+#    - type: &quot;OK&quot;
+#      status: &quot;True&quot;
+  runtime-rules:
+    - apiVersion: policy.mcm.ibm.com/v1alpha1
+      kind: Policy
+      metadata:
+        name: policy01
+        description: Instance descriptor for policy resource
+      spec:
+        remediationAction: &quot;inform&quot; # or inform
+        namespaces:
+          include: [&quot;default&quot;]
+          exclude: [&quot;kube*&quot;]
+        role-templates:
+          - kind: RoleTemplate
+            apiVersion: roletemplate.mcm.ibm.com/v1alpha1
+            complianceType: &quot;musthave&quot; # at this level, it means the role must exist with the rules that it musthave below
+            metadata:
+              namespace: &quot;&quot; # will be inferred
+              name: dev
+            selector:
+              # matchLabels:
+              # hipaa: &quot;true&quot;
+            rules:
+              - complianceType: &quot;musthave&quot; # at this level, it means if the role exists the rule is a musthave
+                policyRule:
+                  apiGroups: [&quot;extensions&quot;, &quot;apps&quot;]
+                  resources: [&quot;deployments&quot;]
+                  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;create&quot;, &quot;delete&quot;,&quot;patch&quot;]
+    - apiVersion: policy.mcm.ibm.com/v1alpha1
+      kind: Policy
+      metadata:
+        name: policy02
+        description: Instance descriptor for policy resource
+      spec:
+        remediationAction: &quot;enforce&quot; # or inform
+        namespaces:
+          include: [&quot;default&quot;]
+          exclude: [&quot;kube*&quot;]
+        role-templates:
+          - kind: RoleTemplate
+            apiVersion: roletemplate.mcm.ibm.com/v1alpha1
+            complianceType: &quot;musthave&quot; # at this level, it means the role must exist with the rules that it musthave below
+            metadata:
+              namespace: &quot;&quot; # will be inferred
+              name: operator
+            selector:
+              matchLabels:
+                hipaa: &quot;true&quot;
+            rules:
+              - complianceType: &quot;musthave&quot; # at this level, it means if the role exists the rule is a musthave
+                policyRule:
+                  apiGroups: [&quot;extensions&quot;, &quot;apps&quot;]
+                  resources: [&quot;deployments&quot;]
+                  verbs: [&quot;get&quot;, &quot;list&quot;, &quot;watch&quot;, &quot;delete&quot;]
+              - complianceType: &quot;mustnothave&quot; # at this level, it means if the role exists the rule is a mustnothave
+                policyRule:
+                  apiGroups: [&quot;core&quot;]
+                  resources: [&quot;pods&quot;]
+                  verbs: [&quot;create&quot;, &quot;update&quot;, &quot;patch&quot;]
+              - policyRule:
+                  apiGroups: [&quot;core&quot;]
+                  resources: [&quot;secrets&quot;]
+                  verbs: [&quot;get&quot;, &quot;watch&quot;, &quot;list&quot;, &quot;create&quot;, &quot;delete&quot;, &quot;update&quot;, &quot;patch&quot;]
+</code></pre>
+
+<p>The above may look overwhelming, but outside a few fields specific to the <code>Compliance</code> object, there is nothing we haven't already seen above. Here is a breakdown of the fields above:</p>
+<ul>
+<li><strong>apiVersion</strong>: The path where the custom API is defined.</li>
+<li><strong>kind</strong>: <code>Compliance</code> in this case.</li>
+<li><strong>metadata</strong>: The common Kubernetes metadata object. There are a couple of fields that are of interest for Compliance Manager.<ul>
+<li><strong>namespace</strong>: This is the name of the namespace that was created specifically for MCM to put Compliance objects during MCM installation.</li>
+<li><strong>description</strong>: Description of the Compliance object, which will be displayed in the MCM Dashboard.</li>
+</ul>
+</li>
+<li><strong>spec</strong>:<ul>
+<li><strong>clusterSelector</strong>: Here is where we define the criteria to select the clusters where the policies will be applied and/or enforced. You can use a combination of the following filters to select clusters:<ul>
+<li><strong>matchNames</strong>: List of cluster names to match against.</li>
+<li><strong>matchLabels</strong>: List of cluster labels to match against. These are the labels which fields you for a cluster during Klusterlet installation.</li>
+<li><strong>matchExpressions</strong>: List of expressions to match against.</li>
+<li><strong>matchConditions</strong>: List of cluster conditions to match against, usually involving cluster health status.</li>
+</ul>
+</li>
+<li><strong>runtime-rules</strong>: This is a list of <code>Policy</code> objects that will be applied to the clusters that match the criteria in <code>clusterSelector</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Once again, the <code>Compliance</code> object is responsible for applying the specified <code>Policy</code> objects to the matching clusters and reporting status back to the Compliance Manager dashboard in MCM.</p>
+<h2 id="compliance-manager-tutorial">Compliance Manager Tutorial</h2>
+<p>Now that we know the basic concepts and understand on a high level the components that power the Compliance Manager, let's go ahead and apply a sample Compliance object to our clusters and see what that looks like on the Compliance Manager dashboard.</p>
+<h3 id="pre-requisites">Pre-requisites</h3>
+<p>This tutorial will assume you have the following pre-requisites:</p>
+<ul>
+<li><strong>2 IBM Cloud Private 3.1 Clusters loaded with the MCM 3.1.1 PPA loaded</strong></li>
+<li><strong>Cluster 1 Setup</strong>:<ul>
+<li><strong>Install MCM Controller Chart</strong><ul>
+<li>Create a separate namespace called <code>mcm</code>, which will be used to store the <code>Compliance</code> objects.</li>
+</ul>
+</li>
+<li><strong>Install MCM Klusterlet Chart and enter the following values:</strong><ul>
+<li><strong>Name</strong>: se-stg-31</li>
+<li><strong>Namespace</strong>: mcm-se-stg</li>
+<li><strong>Labels</strong>:<ul>
+<li><strong>cloud</strong>: IBM</li>
+<li><strong>datacenter</strong>: dallas</li>
+<li><strong>environment</strong>: Staging</li>
+<li><strong>owner</strong>: case</li>
+<li><strong>region</strong>: US</li>
+<li><strong>vendor</strong>: ICP</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>Cluster 2 Setup</strong>:<ul>
+<li><strong>Install MCM Klusterlet Chart and enter the following values:</strong><ul>
+<li><strong>Name</strong>: se-dev-31</li>
+<li><strong>Namespace</strong>: mcm-se-dev</li>
+<li><strong>Labels</strong>:<ul>
+<li><strong>cloud</strong>: IBM</li>
+<li><strong>datacenter</strong>: austin</li>
+<li><strong>environment</strong>: Dev</li>
+<li><strong>owner</strong>: case</li>
+<li><strong>region</strong>: US</li>
+<li><strong>vendor</strong>: ICP</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-apply-the-compliance">1. Apply the Compliance</h3>
+<p>Now that we have installed MCM in both clusters, let's create a <code>Compliance</code> object located at <a href="demos/compliance/compliance-v0.2.yaml">cookbook/docs/demos/compliance/compliance-v0.2.yaml</a>. Here is a high level breakdown of the contents of the <code>Compliance</code> object:</p>
+<ul>
+<li>A cluster selector that uses <code>matchNames</code> to select clusters matching the names listed.</li>
+<li>A <code>Policy</code> that only <code>inform</code>s whether compliance is met based on the policy's <code>RoleTemplate</code>.<ul>
+<li>This means the roles in the <code>RoleTemplate</code> won't be created by the Policy even if the cluster is found non-compliant.</li>
+</ul>
+</li>
+<li>A <code>Policy</code> that <code>enforce</code>s the creation of the policy's <code>RoleTemplate</code> if the cluster is found non-compliant.<ul>
+<li>This means that even if the cluster was found compliant and, for some reason, a cluster admin deletes the role, the Compliance Manager will recreate it.</li>
+</ul>
+</li>
+</ul>
+<p>Let's proceed with the <code>Compliance</code> object creation. If your cluster names are different to the ones mentioned in the previous section, make sure to open the compliance file and change the cluster names in lines <a href="demos/compliance/compliance-v0.2.yaml#L12">12</a> and <a href="demos/compliance/compliance-v0.2.yaml#L13">13</a> to be the names of your clusters as indicated when installing the Klusterlet, then save the file.</p>
+<pre><code class="bash"># Login against MCM Hub Cluster
+cloudctl login -a https://${MCM_HUB_CLUSTER_MASTER_IP}:8443 -u ${USERNAME} -p ${PASSWORD} -n mcm --skip-ssl-validation;
+
+# Clone the repo
+git clone git@github.ibm.com:CASE/refarch-mcm.git
+
+# Cd to repo folder
+cd refarch-mcm
+
+# Apply the Compliance
+kubectl apply -f cookbook/docs/demos/compliance/compliance-v0.2.yaml
+</code></pre>
+
+<p>Where:</p>
+<ul>
+<li><code>${MCM_HUB_CLUSTER_MASTER_IP}</code> is the IP Address of the master node in the MCM Hub Cluster.</li>
+<li><code>${USERNAME}</code> is admin user.</li>
+<li><code>${PASSWORD}</code> is the admin password.</li>
+<li><code>mcm</code> is the namespace in which the <code>Compliance</code> object will be created.</li>
+</ul>
+<p>In the next section, we will use the MCM Compliance Manager dashboar to see the compliance results of the above <code>Compliance</code> object.</p>
+<h3 id="2-view-compliance-status-on-the-dashboard">2. View Compliance Status on the Dashboard</h3>
+<p>To access the Policies view for the Compliance Manager, open a new browser window and go to https://${MCM_HUB_CLUSTER_MASTER_IP}:8443/multicloud/policies, where <code>${MCM_HUB_CLUSTER_MASTER_IP}</code> is the IP Address of the master node in the MCM Hub Cluster.</p>
+<p>If the <code>Compliance</code> object was created successfully, you wil see a screen that looks like this:
+<img alt="1. Compliance" src="../images/policy/1-mcm-compliance.png?raw=true" /></p>
+<p>Notice that under <code>Policy Compliant</code> only 2 out of 4 created policies are compliant, which means for both clusters only 1 of the policies is actually compliant. Because of this, none of the clusters are 100% compliant, as indicated by the <code>0/2</code> value under <code>Cluster Compliant</code> column.</p>
+<p>Now click on <code>compliance1</code> to see more details on the <code>Compliance</code> object. The first thing you will see are some high level details for the <code>Compliance</code>, which are similar to what we saw in the previous screenshot:
+<img alt="2. Compliance Details - 1" src="../images/policy/2-mcm-compliance-details-1.png?raw=true" /></p>
+<p>If you scroll further down you can see the following 2 sections:
+<img alt="3. Compliance Details - 2" src="../images/policy/3-mcm-compliance-details-2.png?raw=true" /></p>
+<p>Here is a breakdown of the above 2 sections:</p>
+<ul>
+<li><strong>Compliance Status</strong>: The overall compliance status of an individual cluster.<ul>
+<li><strong>Cluster Name</strong>: The name of the cluster.</li>
+<li><strong>Policy Compliant</strong>: Ratio of compliant policies to total number of policies.</li>
+<li><strong>Policy Valid</strong>: Ratio of policies with valid syntax to total number of policies.</li>
+</ul>
+</li>
+<li><strong>Compliance Policies</strong>: A breakdown of all the policies and their compliance status for each cluster .<ul>
+<li><strong>Compliant</strong>: Whether the given policy is compliant.</li>
+<li><strong>Name</strong>: Name of the policy.</li>
+<li><strong>Cluster Name</strong>: Name of the cluster that this policy belongs to.</li>
+<li><strong>Valid</strong>: Whether the policy has a valid syntax.</li>
+</ul>
+</li>
+</ul>
+<p>The above should give you a high level idea of the compliance status for each policy in each cluster.</p>
+<h3 id="3-view-individual-policy">3. View Individual Policy</h3>
+<p>The above section showed us how to get a high level compliance status for each policy on each cluster. If we want to investigate, for example, what exactly causing the policies to show a non-compliant status, the we have to inspect the contents of the policy itself.</p>
+<p>To view the contents of any policy, click the name of the policy in the <code>Compliance Policies</code> section shown in the last screenshot. For this example, we are going to click on <code>policy01</code> from the <code>se-dev-31</code> cluster.</p>
+<p>You shold now be greeted with the following screen, which gives you the high level policy details, which gives you the Compliance <code>Status</code> (which is <code>NonCompliant</code>) and the <code>Enforcement</code> type (which is <code>inform)</code>:
+<img alt="4. Policy Details - 1" src="../images/policy/4-mcm-policy-details-1.png?raw=true" /></p>
+<p>If you scroll down, you will encounter the <code>Template Details</code> and the <code>Rules</code> sections:
+<img alt="5. Policy Details - 2" src="../images/policy/5-mcm-policy-details-2.png?raw=true" /></p>
+<p>Here is a breakdown of the above 2 sections:</p>
+<ul>
+<li><strong>Template Details</strong>:<ul>
+<li><strong>Name</strong>: Name of the template, which is <code>dev</code> in this case.</li>
+<li><strong>Last Transition</strong>: The compliance status change for the template.</li>
+<li><strong>Template Type</strong>: The type of template, which is <code>role-template</code> in this case.</li>
+</ul>
+</li>
+<li><strong>Rules</strong>:<ul>
+<li><strong>Name</strong>: The name of the rule, which was auto-generated in this case to be <code>dev-rule-0</code></li>
+<li><strong>Template Type</strong>: The type of template, which is <code>role-template</code> in this case.</li>
+<li><strong>Compliance Type</strong>: This field determines whether the resource (<code>Role</code> in this case) that matches the given <code>rules</code> must exist or not, which in this case must exist based on its <code>musthave</code> value.</li>
+<li><strong>API Groups</strong>: Array of API Groups to apply this rule against.</li>
+<li><strong>Verbs</strong>: Array of verbs that apply to the API Groups and Resources.</li>
+<li><strong>Resources</strong>: Array of Resources from API Groups mentioned above to apply this rule against.</li>
+</ul>
+</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>Though this tutorial did not go into extreme detail on all possible <code>Compliance</code>, <code>Policy</code>, and <code>Template</code> iterations and compliance scenarios (which are left for the reader to experiment with), it did cover the basics on how to apply policies to clusters using <code>Compliance</code> objects.</p>
+<p>The tutorial also covered how you can access the Compliance Manager dashboard to view the compliance status of all the policies and how to inspect non-compliant policies to understand the rules inside the policy templates.</p>
+<p>The more you use the Compliance Manager and implement <code>Compliance</code> objects into more clusters, the easier it becomes to maintain increasingly complicated configurations across multiple clusters.</p>
+<!--## Short End-to-End Video Demo
+If you would like to see a more involved demo or prefer a video tutorial format, then feel free to checkout this video that was put together by the MCM Compliance Manager team.
+[![Watch the video](images/policy/video-demo-screenshot.png)](https://COMING_SOON)-->
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../mcm-monitoring-event-management/" class="btn btn-neutral float-right" title="Monitoring and event management with MCM">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../mcm-devops/" class="btn btn-neutral" title="DevOps with MCM"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+      
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../mcm-devops/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../mcm-monitoring-event-management/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../search/main.js" defer></script>
+
+</body>
+</html>
